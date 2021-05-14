@@ -39,4 +39,4 @@ for symbol, value in symbol_eur_value.items():
     msg += "- *{}* : {} €\n".format(symbol, value)
 msg+="\n*Total* : {}€".format(sum(symbol_eur_value.values()))
 
-requests.post("http://127.0.0.1:"+conf.BOT_PORT, data={"msg":msg})
+requests.post("http://127.0.0.1:"+str(conf.BOT_PORT), data={"msg":msg})
