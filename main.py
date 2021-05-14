@@ -33,18 +33,20 @@ for col in range(2, sheet_data.shape[1]):
     else:
         symbol_eur_value[symbol] = ticker*quantity
 
-total = sum(symbol_eur_value.values()
-profits = total - float(sheet_data[2,1])
+total = sum(symbol_eur_value.values())
+profits = total + float(sheet_data[2,1])
 
-msg = "### Compte rendu cryptos 📈 :\n\n"
+msg = "*** \n### Compte rendu cryptos 📈 : \n *** \n"
 for symbol, value in symbol_eur_value.items():
-    msg += "- **{}** : {} €\n".format(symbol, round(value,2))
-msg+="\n\n**Total** : {}€".format(round(total),2))
+    msg += "- **{}** *({} €)* : {} €\n".format(symbol, symbol_ticker[symbol], round(value,2))
+
+msg+="\n"
+
 if profits > 0:
     color = "#9dc209"
 else:
     color = "#b22222"
-msg+="\n\n**Profit** : <font color='{}'>{}</font>€".format(color, round(profits),2))
+msg+="**Total** : {}€ <br/> <font color='{}'>**Profit** : {} €</font> \n ***".format(round(total,2), color, round(profits,2))
 
 
 requests.post("http://127.0.0.1:"+str(conf.BOT_PORT), data={"msg":msg})
