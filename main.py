@@ -61,7 +61,7 @@ unpaid_eur = unpaid*getSymbolTicker('ETH')
 
 msg += "#### Mineur"
 msg += "\n- **Actif** : "+ 'Oui' if miner_data['currentStatistics']['activeWorkers'] else 'Non'
-msg += "\n- **Non payé** : {} ETH *({} €)*".format(unpaid, unpaid_eur)
+msg += "\n- **Non payé** : {} ETH *({} €)*".format(round(unpaid,5), round(unpaid_eur, 2))
 msg += "\n***"
 
 ## SEND DATA
