@@ -34,9 +34,9 @@ for col in range(2, sheet_data.shape[1]):
         symbol_eur_value[symbol] = ticker*quantity
 
 
-msg = "Compte rendu cryptos:\n"
+msg = ":chart_with_upwards_trend: Compte rendu cryptos:\n\n"
 for symbol, value in symbol_eur_value.items():
-    msg += "- *{}* : {} €\n".format(symbol, value)
-msg+="\n*Total* : {}€".format(sum(symbol_eur_value.values()))
+    msg += "- **{}** : {} €\n\n".format(symbol, value)
+msg+="\n\n**Total** : {}€".format(sum(symbol_eur_value.values()))
 
 requests.post("http://127.0.0.1:"+str(conf.BOT_PORT), data={"msg":msg})
