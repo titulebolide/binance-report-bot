@@ -1,4 +1,5 @@
 import requests
+import numpy as np
 import conf
 
 def get_report(st):

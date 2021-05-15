@@ -3,6 +3,9 @@ import numpy as np
 import conf
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
+import os
+import time
+import matplotlib.pyplot as plt
 
 def get_report(st):
 
@@ -42,3 +45,32 @@ def format_report(st, report):
         round(report['profits'],2)
     )
     return msg
+
+
+def get_previous_reports():
+    if os.path.exists('db/crypto.npy'):
+        reports = np.load('db/crypto.npy', allow_pickle=True).tolist()
+        return reports
+    else:
+        return []
+
+def save_report(report, old_reports):
+    old_reports.append({
+        "time": time.time(),
+        "report": report
+    })
+    np.save('db/crypto.npy', old_reports, allow_pickle=True)
+    return old_reports
+
+def plot_reports(reports):
+    X,Y = [],[]
+    for report in reports:
+        X.append(report['time'])
+        Y.append(report['report']['profits'])
+    plt.plot(X,Y)
+    plt.xlabel('Time')
+    plt.ylabel('Profit')
+    plt.grid()
+    figname = "db/profit.png"
+    plt.savefig(figname)
+    return figname

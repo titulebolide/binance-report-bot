@@ -1,7 +1,7 @@
 import binance
 import requests
 import conf
-
+import os
 
 class SymbolTicker:
     def __init__(self):
@@ -19,9 +19,16 @@ class SymbolTicker:
             self.symbol_ticker[symbol] = price
         return self.symbol_ticker[symbol]
 
-
 def send_report(msg):
     try:
-        requests.post("http://127.0.0.1:"+str(conf.BOT_PORT), data={"msg":msg})
+        requests.post("http://127.0.0.1:"+str(conf.BOT_PORT), data={"txt":msg})
     except requests.exceptions.ConnectionError:
         print(msg)
+
+def send_img(img):
+    try:
+        requests.post("http://127.0.0.1:"+str(conf.BOT_PORT), data={
+            "img": os.path.join(os.getcwd(), img)
+        })
+    except requests.exceptions.ConnectionError:
+        pass
