@@ -5,7 +5,7 @@ import click
 @click.option('--send/--no-send', default=False)
 def main(send):
     st = bot.utils.SymbolTicker()
-    crypto_report = bot.crypto.get_report(st)
+    crypto_report = bot.crypto.get_report_binance(st)
     miner_report = bot.miner.get_report(st)
 
     crypto_reports = bot.crypto.save_report(crypto_report, bot.crypto.get_previous_reports())
