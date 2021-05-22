@@ -13,9 +13,14 @@ class SymbolTicker:
 
     def getTicker(self, symbol):
         if not symbol in self.symbol_ticker:
-            price = requests.get(
+            data = requests.get(
                 'https://min-api.cryptocompare.com/data/price?fsym='+symbol+'&tsyms=EUR&api_key='+conf.CRYPTOCOMPARE_API_KEY
-            ).json()['EUR']
+            ).json()
+            if not "EUR" in data:
+                print(data, symbol)
+                price=0
+            else:
+                price=data["EUR"]
             self.symbol_ticker[symbol] = price
         return self.symbol_ticker[symbol]
 
