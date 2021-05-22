@@ -30,9 +30,11 @@ def format_report(st, report):
     msg = "#### Marché actuel:\n"
 
     for symbol, value in report['value_eur'].items():
+        if value < 0.5:
+            continue
         msg += "- **{}**  *({} €)* : {} €\n".format(symbol, st.getTicker(symbol), round(value,2))
 
-    msg+="\n**Total** : {}€"
+    msg+="\n**Total** : {}€\n".report['total']
     if 'profits' in report:
         msg+="\n<font color='{}'>**Profit** : {} €</font> \n***\n\n".format(
             round(report['total'],2),
