@@ -34,7 +34,7 @@ def format_report(st, report):
             continue
         msg += "- **{}**  *({} €)* : {} €\n".format(symbol, st.getTicker(symbol), round(value,2))
 
-    msg+="\n**Total** : {}€\n".report['total']
+    msg+="\n**Total** : {}€\n".format(report['total'])
     if 'profits' in report:
         msg+="\n<font color='{}'>**Profit** : {} €</font> \n***\n\n".format(
             round(report['total'],2),
