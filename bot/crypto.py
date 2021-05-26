@@ -35,7 +35,6 @@ def get_report():
     report['total_usdt'] = total_usdt
     report['balances'] = balances
     report['tickers'] = report_tickers
-    report['version'] = 2
     return report
 
 
