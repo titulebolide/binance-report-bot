@@ -56,7 +56,7 @@ def get_currency_change(tickers):
 
 def format_report(report):
     msg = "#### Marché actuel:\n"
-    currency_change = 1/get_currency_change(report['tickers'])
+    currency_change = get_currency_change(report['tickers'])
     for symbol, qty in report['balances'].items():
         ticker = get_ticker(report['tickers'], symbol)
         value = round(qty*ticker*currency_change,2)
@@ -85,7 +85,7 @@ def save_report(report, old_reports):
 
 
 def plot_symbol(reports, symbol):
-    plt.figure()
+    plt.clf()
     X,Y = [],[]
     for report in reports:
         ticker = get_ticker(report['tickers'], symbol)
