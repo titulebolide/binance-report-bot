@@ -5,14 +5,7 @@ The intent of this bot is to take a snapshot of your binance wallet, e.g. the cu
 
 ## Install
 
-Create a `conf.py` file at the root of this project with the following infos:
-```
-BINANCE_API_KEY = ""
-BINANCE_API_SECRET = ""
-CRYPTOCOMPARE_API_KEY = ""
-BOT_PORT = 34546
-MINER_ADRESS = ""
-```
+Create the file `conf.py` based on `conf.template.py`.
 
 Then run
 ```
@@ -31,5 +24,5 @@ To output the previously saved snapshots
 python main.py --output OUTPUT_TYPE
 ```
 With OUTPUT_TYPE being in:
-- `print`
-- `http` (can be used with the `--port` option)
+- `print` (simply display the report)
+- `http` (can be used with the `--port` option) (send the report to an http server, useful to transmit the data to another bot)
