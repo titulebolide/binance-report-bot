@@ -3,11 +3,31 @@ import conf
 import click
 
 @click.command()
-@click.option('--snapshot/--no-snapshot', default=False)
-@click.option('--output', default='none')
-@click.option('--port', default=8080)
-@click.option('--plot-symbol', default=conf.CURRENCY)
+@click.option(
+    '--snapshot/--no-snapshot',
+    default=False,
+    help = "Take a snapshot of the binance wallet and save it"
+)
+@click.option(
+    '--output',
+    default='none',
+    help='If used, the script will ouput the previously saved data the way it is asked to'
+)
+@click.option(
+    '--port',
+    default=8080,
+    help="The port to send the data. To be used with --output http"
+)
+@click.option(
+    '--plot-symbol',
+    default=conf.CURRENCY,
+    help="The currency the graph will be plotted on. Default : FIAT"
+)
 def main(snapshot, output, port, plot_symbol):
+    """
+    Take a snapshot of your binance wallet, e.g. the current balances and store it for further plotting.
+    """
+
     assert plot_symbol in conf.COINS+[conf.CURRENCY]
 
     if not snapshot and output == 'none':
