@@ -26,3 +26,8 @@ python main.py --output OUTPUT_TYPE
 With OUTPUT_TYPE being in:
 - `print` (simply display the report)
 - `http` (can be used with the `--port` option) (send the report to an http server, useful to transmit the data to another bot)
+
+The generated graph can be plotted against another currency than the FIAT, e.g. for EOS (EOS will have to be in the COINS list in the conf file):
+```
+python main.py --output print --plot-symbol EOS
+```
