@@ -13,7 +13,7 @@ pip install -r requirements.txt
 ```
 
 ## Usage
-To save a snapshot of the binance accunt run:
+To save a snapshot of the binance account run:
 ```
 python main.py --snapshot
 ```
