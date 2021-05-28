@@ -55,7 +55,7 @@ def get_currency_change(tickers):
 
 
 def format_report(report):
-    msg = "#### Marché actuel:\n"
+    msg = "#### Current market:\n"
     currency_change = get_currency_change(report['tickers'])
     for symbol, qty in report['balances'].items():
         ticker = get_ticker(report['tickers'], symbol)
