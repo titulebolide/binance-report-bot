@@ -4,3 +4,4 @@ matplotlib >= 3.4.2
 python-binance >= 1.0.10
 click>=7.1.2
 rich>=10.2.2
+datetime >= 4.3

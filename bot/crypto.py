@@ -4,6 +4,8 @@ import conf
 import os
 import time
 import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
+import datetime as dt
 import binance
 
 
@@ -98,10 +100,12 @@ def plot_symbol(reports, symbol):
     for report in reports:
         ticker = report['tickers'][symbol]
         Y.append(report['total_usdt']/ticker)
-        X.append(report['time'])
+        X.append(dt.datetime.fromtimestamp(report['time']))
+
+    plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%d/%m %H:%M'))
+    plt.setp(plt.xticks()[1], rotation = 15)
     plt.plot(X,Y)
-    plt.xlabel('Time (s)')
-    plt.ylabel(f'Value ({symbol})')
+    plt.ylabel(symbol)
     plt.grid()
     figname = f"db/quantity_{symbol}.png"
     plt.savefig(figname)
