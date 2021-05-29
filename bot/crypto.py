@@ -7,58 +7,66 @@ import matplotlib.pyplot as plt
 import binance
 
 
+def build_ticker(all_symbols, tickers_raw):
+    backup_coins = ['BTC', 'ETH', 'BNB']
+    tickers = {'USDT' : 1, 'USD' : 1}
+    tickers_raw = {t['symbol']:float(t['price']) for t in tickers_raw}
+    failed_coins = []
+
+    for symbol in set(backup_coins + all_symbols):
+        success = False
+        for stable in ('USDT', 'BUSD', 'USDC', 'DAI'):
+            pair = symbol+stable
+            if pair in tickers_raw:
+                tickers[symbol] = tickers_raw[pair]
+                success = True
+                break
+        if not success:
+            failed_coins.append(symbol)
+
+    for symbol in failed_coins:
+        success = False
+        for b_coin in backup_coins:
+            pair = symbol+b_coin
+            if pair in tickers_raw:
+                tickers[symbol] = tickers_raw[pair]*tickers[b_coin]
+
+    return tickers
+
+
 def get_report():
     api = binance.Client(conf.BINANCE_API_KEY, conf.BINANCE_API_SECRET)
-    tickers_raw = api.get_symbol_ticker()
-    tickers = {'USDT' : 1, 'USD' : 1}
-    for t in tickers_raw:
-        if t['symbol'].endswith('USDT'):
-            tickers[t['symbol'][:-4]] = float(t['price'])
+
     account = api.get_account()
-    total_usdt = 0
+    account_symbols = []
     balances = {}
     for balance in account['balances']:
         symbol = balance['asset']
         qty = float(balance["free"]) + float(balance["locked"])
-        if qty == 0:
-            continue
-        balances[symbol] = qty
-        if symbol in tickers:
-            total_usdt += qty*tickers[symbol]
-        else:
-            print(f'WARN : Missing symbol {symbol} in binance tickers')
+        if qty != 0:
+            account_symbols.append(symbol)
+            balances[symbol] = qty
 
-    all_symbols = list(set(conf.COINS + list(balances.keys()) + [conf.CURRENCY]))
-    report_tickers = {symbol : get_ticker(tickers, symbol) for symbol in all_symbols}
+    all_symbols = list(set(conf.COINS + account_symbols + [conf.CURRENCY]))
+    tickers_raw = api.get_symbol_ticker()
+    tickers = build_ticker(all_symbols, tickers_raw)
+
+    total_usdt = 0
+    for symbol in account_symbols:
+        total_usdt += balances[symbol]*tickers[symbol]
 
     report = {}
     report['total_usdt'] = total_usdt
     report['balances'] = balances
-    report['tickers'] = report_tickers
+    report['tickers'] = tickers
     return report
-
-
-def get_ticker(tickers, symbol):
-    ticker = 0
-    if symbol in tickers:
-        ticker = tickers[symbol]
-    else:
-        print(f'WARN : Missing symbol {symbol}')
-    return ticker
-
-
-def get_currency_change(tickers):
-    ticker = get_ticker(tickers, conf.CURRENCY)
-    if ticker == 0:
-        return 0
-    return 1/ticker
 
 
 def format_report(report):
     msg = "#### Marché actuel:\n"
-    currency_change = get_currency_change(report['tickers'])
+    currency_change = 1/report['tickers'][conf.CURRENCY]
     for symbol, qty in report['balances'].items():
-        ticker = get_ticker(report['tickers'], symbol)
+        ticker = report['tickers'][symbol]
         value = round(qty*ticker*currency_change,2)
         if value < 0.1:
             continue
@@ -88,7 +96,7 @@ def plot_symbol(reports, symbol):
     plt.clf()
     X,Y = [],[]
     for report in reports:
-        ticker = get_ticker(report['tickers'], symbol)
+        ticker = report['tickers'][symbol]
         Y.append(report['total_usdt']/ticker)
         X.append(report['time'])
     plt.plot(X,Y)
