@@ -97,7 +97,7 @@ def save_report(report, old_reports):
 def plot_symbol(reports, symbol):
     plt.clf()
     plt.close()
-    plt.figure(figsize=(10,13))
+    plt.figure(figsize=(13,10))
     for symbol in conf.COINS:
         if symbol == "WIN": continue
         X,Y=[],[]
