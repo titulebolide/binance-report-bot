@@ -94,12 +94,13 @@ def save_report(report, old_reports):
     return old_reports
 
 
-def plot_symbol(reports, symbol):
+def plot_symbol(reports, symbols, relative):
+
     plt.clf()
     plt.close()
-    plt.figure(figsize=(13,10))
-    for symbol in conf.COINS:
-        if symbol == "WIN": continue
+    plt.figure()
+
+    for symbol in symbols:
         X,Y=[],[]
         for report in reports:
             ticker = report['tickers'][symbol]
@@ -107,14 +108,20 @@ def plot_symbol(reports, symbol):
                 continue
             Y.append(report['total_usdt']/ticker)
             X.append(dt.datetime.fromtimestamp(report['time']))
-        Y = np.array(Y)
-        Y = Y/Y[0] - 1
-        Y *= 100
+        if relative:
+            Y = np.array(Y)
+            Y = (Y/Y[0] - 1) * 100
         plt.plot(X,Y, label=symbol)
+
     plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%d/%m %H:%M'))
     plt.setp(plt.xticks()[1], rotation = 15)
-    plt.ylabel("Relative profit")
-    plt.legend()
+    if relative:
+        plt.ylabel("Relative profit (%)")
+        plt.legend()
+    else:
+        label = "Amount"
+        label += f" ({symbols[0]})" if len(symbols) == 1 else ""
+        plt.ylabel(label)
     plt.grid()
     figname = f"db/quantity_{symbol}.png"
     plt.savefig(figname)

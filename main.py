@@ -2,53 +2,74 @@ import bot
 import conf
 import click
 
-@click.command()
-@click.option(
-    '--snapshot/--no-snapshot',
-    default=False,
-    help = "Take a snapshot of the binance wallet and save it"
-)
-@click.option(
-    '--output',
-    default='none',
-    help='If used, the script will ouput the previously saved data the way it is asked to'
-)
-@click.option(
-    '--port',
-    default=8080,
-    help="The port to send the data. To be used with --output http"
-)
-@click.option(
-    '--plot-symbol',
-    default=conf.CURRENCY,
-    help="The currency the graph will be plotted on. Default : FIAT"
-)
-def main(snapshot, output, port, plot_symbol):
+
+@click.group()
+def cli():
     """
     Take a snapshot of your binance wallet, e.g. the current balances and store it for further plotting.
     """
 
-    assert plot_symbol in conf.COINS+[conf.CURRENCY]
 
-    if not snapshot and output == 'none':
-        print("Nothing to do. Run main.py --help for more details")
+@cli.command(
+    'snapshot',
+    short_help = "Take a snapshot of your wallet",
+    help = "Take a snapshot of the binance wallet and save it for further plotting"
+)
+def snapshot():
+    crypto_report = bot.crypto.get_report()
+    crypto_reports = bot.crypto.save_report(crypto_report, bot.crypto.get_previous_reports())
+    print('Snapshot saved')
 
-    if snapshot:
-        crypto_report = bot.crypto.get_report()
-        crypto_reports = bot.crypto.save_report(crypto_report, bot.crypto.get_previous_reports())
-        print('Snapshot saved')
 
-    if output != 'none':
-        reports = bot.crypto.get_previous_reports()
-        if len(reports) == 0 :
-            msg = "No snapshot in database. Run at least once main.py --snapshot"
-            figname = None
-        else:
-            msg = "*** \n### Crypto report 📈 : \n***\n\n"
-            msg += bot.crypto.format_report(reports[-1])
-            figname = bot.crypto.plot_symbol(reports, plot_symbol)
+@cli.command(
+    'output',
+    short_help = 'Output the previously stored data',
+    help = "Output the previously stored data with 'snapshot'"
+)
+@click.option(
+    '--type',
+    default='print',
+    help="The way the data is shown. Options : print, http"
+)
+@click.option(
+    '--relative/--no-relative',
+    default = False,
+    help = "If the graph should be plotted relative to its initial value"
+)
+@click.option(
+    '--port',
+    default=8080,
+    help="The port to send the data. To be used with --type http"
+)
+@click.option(
+    '--symbol',
+    default=conf.CURRENCY,
+    help="""The currency the graph will be plotted on.
+To plot several symbols on the same graph, separate them by a coma.
+If plotting several symbols, the --relative option is enabled.
+To plot all symbols, use '*'.
+Default : FIAT"""
+)
+def output(type, relative, port, symbol):
+    if symbol == '*':
+        symbol = conf.COINS
+    else:
+        symbol = symbol.split(',')
+        for s in symbol:
+            assert s in conf.COINS+[conf.CURRENCY]
+    if len(symbol) > 1:
+        relative = True
+    reports = bot.crypto.get_previous_reports()
+    if len(reports) == 0:
+        msg = "No snapshot in database. Run at least once main.py --snapshot"
+        figname = None
+    else:
+        msg = "*** \n### Crypto report 📈 : \n***\n\n"
+        msg += bot.crypto.format_report(reports[-1])
+        figname = bot.crypto.plot_symbol(reports, symbol, relative)
 
-        bot.io.output(msg, figname, output, port)
+    bot.io.output(msg, figname, type, port)
+
 
 if __name__ == "__main__":
-    main()
+    cli()
