@@ -15,8 +15,13 @@ def cli():
     short_help = "Take a snapshot of your wallet",
     help = "Take a snapshot of the binance wallet and save it for further plotting"
 )
-def snapshot():
-    crypto_report = bot.crypto.get_report()
+@click.option(
+    '--debug/--no-debug',
+    default=False,
+    help="Prints debug data"
+)
+def snapshot(debug):
+    crypto_report = bot.crypto.get_report(debug)
     crypto_reports = bot.crypto.save_report(crypto_report, bot.crypto.get_previous_reports())
     print('Snapshot saved')
 

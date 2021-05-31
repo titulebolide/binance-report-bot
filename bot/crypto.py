@@ -36,7 +36,7 @@ def build_ticker(all_symbols, tickers_raw):
     return tickers
 
 
-def get_report():
+def get_report(debug):
     api = binance.Client(conf.BINANCE_API_KEY, conf.BINANCE_API_SECRET)
 
     account = api.get_account()
@@ -52,6 +52,9 @@ def get_report():
     all_symbols = list(set(conf.COINS + account_symbols + [conf.CURRENCY]))
     tickers_raw = api.get_symbol_ticker()
     tickers = build_ticker(all_symbols, tickers_raw)
+    if debug:
+        print(all_symbols, tickers, sep="\n"*2, end='\n'*2)
+
 
     total_usdt = 0
     for symbol in account_symbols:
