@@ -44,6 +44,12 @@ def get_report(debug):
     balances = {}
     for balance in account['balances']:
         symbol = balance['asset']
+
+        if symbol.startswith('LD'):
+            # skip the coins in binance saving
+            # (see https://github.com/titulebolide/binance-report-bot/issues/5)
+            continue
+
         qty = float(balance["free"]) + float(balance["locked"])
         if qty != 0:
             account_symbols.append(symbol)
