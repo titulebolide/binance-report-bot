@@ -32,12 +32,12 @@ def snapshot(debug):
     help = "Output the previously stored data with 'snapshot'"
 )
 @click.option(
-    '--type',
+    '-t', '--type',
     default='print',
     help="The way the data is shown. Options : print, http"
 )
 @click.option(
-    '--relative/--no-relative',
+    '-r', '--relative/--no-relative',
     default = False,
     help = "If the graph should be plotted relative to its initial value"
 )
@@ -47,7 +47,7 @@ def snapshot(debug):
     help="The port to send the data. To be used with --type http"
 )
 @click.option(
-    '--symbol',
+    '-s', '--symbol',
     default=conf.CURRENCY,
     help="""The currency the graph will be plotted on.
 To plot several symbols on the same graph, separate them by a coma.
