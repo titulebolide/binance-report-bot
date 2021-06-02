@@ -71,8 +71,8 @@ def output(type, relative, port, symbol):
     else:
         msg = "*** \n### Crypto report 📈 : \n***\n\n"
         msg += bot.crypto.format_report(reports[-1])
-        figname = bot.crypto.plot_symbol(reports, symbol, relative)
-
+        #figname = bot.crypto.plot_symbol(reports, symbol, relative)
+        figname = bot.crypto.plot_holdings(reports)
     bot.io.output(msg, figname, type, port)
 
 

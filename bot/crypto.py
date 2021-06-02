@@ -135,3 +135,24 @@ def plot_symbol(reports, symbols, relative):
     figname = f"db/quantity_{symbol}.png"
     plt.savefig(figname)
     return figname
+
+def plot_holdings(reports):
+    Ys = {coin: [0]*len(reports) for coin in conf.COINS}
+    Ys['other'] = [0]*len(reports)
+    X = [r['time'] for r in reports]
+    for ireport, report in enumerate(reports):
+        if 'balances' in report:
+            for symbol, qty in report['balances'].items():
+                if symbol in Ys:
+                    Ys[symbol][ireport] += qty*report['tickers'][symbol]
+                else:
+                    Ys['other'][ireport] += qty*report['tickers'][symbol]
+        else: # workaround for <v0.3 databases
+            Ys['other'][ireport] += report['total_usdt']
+
+    plt.stackplot(X, *Ys.values(), labels=list(Ys.keys()))
+    plt.legend()
+    plt.grid()
+    figname = f"db/holdings.png"
+    plt.savefig(figname)
+    return figname
