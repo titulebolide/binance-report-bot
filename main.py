@@ -55,7 +55,15 @@ If plotting several symbols, the --relative option is enabled.
 To plot all symbols, use '*'.
 Default : FIAT"""
 )
-def output(type, relative, port, symbol):
+@click.option(
+    '-d', '--days',
+    default=7,
+    help="""The number of days over which the graph will be plotted.
+If set to 0, the graph will plot all the records.
+Default : 7 days
+    """
+)
+def output(type, relative, port, symbol, days):
     if symbol == '*':
         symbol = conf.COINS
     else:
@@ -71,7 +79,7 @@ def output(type, relative, port, symbol):
     else:
         msg = "*** \n### Crypto report 📈 : \n***\n\n"
         msg += bot.crypto.format_report(reports[-1])
-        figname = bot.crypto.plot_symbol(reports, symbol, relative)
+        figname = bot.crypto.plot_symbol(reports, symbol, relative, days)
 
     bot.io.output(msg, figname, type, port)
 

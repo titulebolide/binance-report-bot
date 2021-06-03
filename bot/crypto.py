@@ -103,15 +103,21 @@ def save_report(report, old_reports):
     return old_reports
 
 
-def plot_symbol(reports, symbols, relative):
+def plot_symbol(reports, symbols, relative, days):
 
     plt.clf()
     plt.close()
     plt.figure()
 
+    min_timestamp = 0
+    if days != 0:
+        min_timestamp = time.time() - days*24*60*60
+
     for symbol in symbols:
         X,Y=[],[]
         for report in reports:
+            if report['time'] < min_timestamp:
+                continue # skip if too recent
             ticker = report['tickers'][symbol]
             if ticker == 0:
                 continue
