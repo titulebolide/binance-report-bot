@@ -32,19 +32,14 @@ def snapshot(debug):
     help = "Output the previously stored data with 'snapshot'"
 )
 @click.option(
-    '-t', '--type',
-    default='print',
-    help="The way the data is shown. Options : print, http"
+    '--quiet/--no-quiet',
+    default=False,
+    help="Set to true if you don't want to print in the console or display an image"
 )
 @click.option(
     '-r', '--relative/--no-relative',
     default = False,
     help = "If the graph should be plotted relative to its initial value"
-)
-@click.option(
-    '--port',
-    default=8080,
-    help="The port to send the data. To be used with --type http"
 )
 @click.option(
     '-s', '--symbol',
@@ -62,7 +57,7 @@ Default : FIAT"""
 If set to 0, the graph will plot all the records.
 Default : 7 days"""
 )
-def output(type, relative, port, symbol, days):
+def output(quiet, relative, symbol, days):
     if symbol == '*':
         symbol = conf.COINS
     else:
@@ -80,7 +75,7 @@ def output(type, relative, port, symbol, days):
         msg += bot.crypto.format_report(reports[-1])
         figname = bot.crypto.plot_symbol(reports, symbol, relative, days)
 
-    bot.io.output(msg, figname, type, port)
+    bot.io.output(msg, figname, quiet)
 
 
 if __name__ == "__main__":

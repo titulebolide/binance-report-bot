@@ -5,3 +5,4 @@ python-binance >= 1.0.10
 click>=7.1.2
 rich>=10.2.2
 datetime >= 4.3
+apprise >= 0.9.3

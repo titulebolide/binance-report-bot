@@ -2,11 +2,13 @@ import requests
 import conf
 import os
 import matplotlib.pyplot as plt
+if conf.APPRISE_URL != "":
+    import apprise
 if conf.RICH_PRINTING:
     import rich.console, rich.markdown
 
-def output(msg, img, output, port):
-    if output == "print":
+def output(msg, img, quiet):
+    if not quiet:
         if conf.RICH_PRINTING:
             rich.console.Console().print(
                 rich.markdown.Markdown(msg)
@@ -22,12 +24,11 @@ def output(msg, img, output, port):
             plt.imshow(plt.imread(img))
             plt.show()
 
-    elif output == "http":
-        try:
-            requests.post("http://127.0.0.1:"+str(port), data={"txt":msg})
-            if img is not None:
-                requests.post("http://127.0.0.1:"+str(port), data={
-                    "img": os.path.join(os.getcwd(), img)
-                })
-        except requests.exceptions.ConnectionError:
-            print(msg)
+    if conf.APPRISE_URL != "":
+        apobj = apprise.Apprise()
+        apobj.add(conf.APPRISE_URL)
+        apobj.notify(
+            body = msg,
+            body_format = apprise.NotifyFormat.MARKDOWN,
+            attach = img
+        )

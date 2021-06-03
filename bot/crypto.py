@@ -74,7 +74,7 @@ def get_report(debug):
 
 
 def format_report(report):
-    msg = "#### Current market:\n"
+    msg = "**Current market**:\n\n"
     currency_change = 1/report['tickers'][conf.CURRENCY]
     for symbol, qty in report['balances'].items():
         ticker = report['tickers'][symbol]
