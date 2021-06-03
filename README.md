@@ -66,7 +66,6 @@ Options:
 
 Commands:
   output    Output the previously stored data
-
   snapshot  Take a snapshot of your wallet
 ```
 
@@ -78,7 +77,6 @@ Usage: main.py snapshot [OPTIONS]
 
 Options:
   --debug / --no-debug  Prints debug data
-
   --help                Show this message and exit.
 ```
 
@@ -90,7 +88,6 @@ $ ~ Usage: main.py output [OPTIONS]
 Options:
   --quiet / --no-quiet            Set to true if you don't want to print in
                                   the console or display an image
-
   -r, --relative / --no-relative  If the graph should be plotted relative to
                                   its initial value
   -s, --symbol TEXT               The currency the graph will be plotted on.
