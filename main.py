@@ -60,8 +60,7 @@ Default : FIAT"""
     default=7,
     help="""The number of days over which the graph will be plotted.
 If set to 0, the graph will plot all the records.
-Default : 7 days
-    """
+Default : 7 days"""
 )
 def output(type, relative, port, symbol, days):
     if symbol == '*':

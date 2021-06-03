@@ -29,22 +29,24 @@ One can use crontab to use this code:
 To have a snaphsot made every hour and a report made every day at 19:02.
 
 ## Output example
-Plot `EOS` holdings:
+Plot `EOS` *equivalent* holdings:
 ```bash
 python3 main.py output --symbol EOS
 ```
 
-Plot `ICX` relative holdings:
+Plot `ICX` relative equivalent holdings:
 ```bash
 python3 main.py output --symbol ICX --relative
 ```
 
-Plot `ICX` and `EOS` holdings:
+Plot `ICX` and `EOS` equivalent holdings since three days ago:
 ```bash
-python3 main.py output --symbol ICX,EOS
+python3 main.py output --symbol ICX,EOS --days 3
 ```
 
-Plot the holdings of all soins registered in the conf file:
+Plot the equivalent holdings of all soins registered in the conf file:
 ```bash
 python3 main.py output --symbol * # or '*' if using zsh
 ```
+
+**Note** : The *equivalent holding* is your portfolio's value in a certain currency. It represents what you would be holding if all your portfolio was under this single currency.
