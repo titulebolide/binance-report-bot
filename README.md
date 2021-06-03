@@ -10,7 +10,7 @@ Then run
 pip install -r requirements.txt
 ```
 
-## Usage
+## Basic Usage
 To save a snapshot of the binance account run:
 ```bash
 python main.py snapshot
@@ -20,13 +20,15 @@ To show the previously saved snapshots
 python main.py output # --help for options
 ```
 
-### Deployment
+## Deployment
 One can use crontab to use this code:
 ```cron
 0 * * * * cd [FOLDER] ; python3 main.py snapshot
 2 19 * * * cd [FOLDER] ; python3 main.py output [OPTIONS]
 ```
 To have a snaphsot made every hour and a report made every day at 19:02.
+
+The output can be sent to an external service, that can be configured with the APPRISE_URL parameter. See [here](https://github.com/caronc/apprise/wiki) to choose your external service and to create your APPRISE_URL. Please use a service that supports attachment, in order to send images. Recommended services : [Discord](https://github.com/caronc/apprise/wiki/Notify_discord), [Telegram](https://github.com/caronc/apprise/wiki/Notify_telegram) or [Email](https://github.com/caronc/apprise/wiki/Notify_email).
 
 ## Output example
 Plot `EOS` *equivalent* holdings:
