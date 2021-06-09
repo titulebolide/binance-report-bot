@@ -19,4 +19,5 @@ RICH_PRINTING = True
 APPRISE_URL = ""
 
 # openexchangerates.org api key. Mandatory if CURRENCY is not EUR or USD
+# Get yours here : https://openexchangerates.org/signup/free
 OER_APP_ID = ""

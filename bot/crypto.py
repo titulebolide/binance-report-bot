@@ -89,7 +89,7 @@ def format_report(report):
         value = round(qty*ticker*currency_change,2)
         if value < 0.1:
             continue
-        msg += f"- **{symbol}**  *({ticker} {conf.CURRENCY_SYMBOL})* : {value} {conf.CURRENCY_SYMBOL}\n"
+        msg += f"- **{symbol}**  *({ticker} $)* : {value} {conf.CURRENCY_SYMBOL}\n"
 
     total = round(report['total_usdt']*currency_change,2)
     msg += f"\n**Total** : {total} {conf.CURRENCY_SYMBOL}\n"
