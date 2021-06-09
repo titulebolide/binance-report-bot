@@ -69,7 +69,7 @@ def output(quiet, relative, symbol, days):
         relative = True
     reports = bot.crypto.get_previous_reports()
     if len(reports) == 0:
-        msg = "No snapshot in database. Run at least once main.py --snapshot"
+        msg = "No snapshot in database. Run at least once main.py snapshot"
         figname = None
     else:
         msg = "*** \n### Crypto report 📈 : \n***\n\n"

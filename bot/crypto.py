@@ -55,9 +55,17 @@ def get_report(debug):
             account_symbols.append(symbol)
             balances[symbol] = qty
 
-    all_symbols = list(set(conf.COINS + account_symbols + [conf.CURRENCY]))
+    all_symbols = list(set(conf.COINS + account_symbols))
+    if conf.CURRENCY == "EUR":
+        all_symbols.append('EUR')
     tickers_raw = api.get_symbol_ticker()
     tickers = build_ticker(all_symbols, tickers_raw)
+    if conf.CURRENCY not in ('USD', 'EUR'):
+        ticker = 1/requests.get(
+            "https://openexchangerates.org/api/latest.json?app_id="+conf.OER_APP_ID
+        ).json()['rates'][conf.CURRENCY]
+        tickers[conf.CURRENCY] = ticker
+
     if debug:
         print(all_symbols, tickers, sep="\n"*2, end='\n'*2)
 
