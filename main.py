@@ -8,6 +8,7 @@ def cli():
     """
     Take a snapshot of your binance wallet, e.g. the current balances and store it for further plotting.
     """
+    bot.utils.check_configuration(conf)
 
 
 @cli.command(

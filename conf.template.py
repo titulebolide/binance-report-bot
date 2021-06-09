@@ -17,3 +17,6 @@ RICH_PRINTING = True
 
 #Leave blank if you don't want to use apprise notifications
 APPRISE_URL = ""
+
+# openexchangerates.org api key. Mandatory if CURRENCY is not EUR or USD
+OER_APP_ID = ""
