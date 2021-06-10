@@ -2,23 +2,23 @@ import requests
 import conf
 import os
 import matplotlib.pyplot as plt
+
 if conf.APPRISE_URL != "":
     import apprise
 if conf.RICH_PRINTING:
     import rich.console, rich.markdown
 
+
 def output(msg, img, quiet):
     if not quiet:
         if conf.RICH_PRINTING:
-            rich.console.Console().print(
-                rich.markdown.Markdown(msg)
-            )
+            rich.console.Console().print(rich.markdown.Markdown(msg))
         else:
             print(msg)
         if img is not None:
             plt.close()
             fig = plt.figure()
-            ax = plt.Axes(fig, [0., 0., 1., 1.])
+            ax = plt.Axes(fig, [0.0, 0.0, 1.0, 1.0])
             ax.set_axis_off()
             fig.add_axes(ax)
             plt.imshow(plt.imread(img))
@@ -27,8 +27,4 @@ def output(msg, img, quiet):
     if conf.APPRISE_URL != "":
         apobj = apprise.Apprise()
         apobj.add(conf.APPRISE_URL)
-        apobj.notify(
-            body = msg,
-            body_format = apprise.NotifyFormat.MARKDOWN,
-            attach = img
-        )
+        apobj.notify(body=msg, body_format=apprise.NotifyFormat.MARKDOWN, attach=img)
