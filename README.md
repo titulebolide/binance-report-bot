@@ -11,7 +11,7 @@ Create the file `conf.py` based on `conf.template.py`.
 
 Then run
 ```
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 ```
 
 ## Basic Usage
