@@ -1,14 +1,27 @@
-import bot
+import brb.crypto
+import brb.utils
+import brb.io
+import logging
 import conf
 import click
+import brb
 
 
 @click.group()
-def cli():
+@click.option(
+    '--debug/--no-debug',
+    default=False,
+    help="Prints debug data"
+)
+def cli(debug):
     """
+    Binance Report Bot
+    
     Take a snapshot of your binance wallet, e.g. the current balances and store it for further plotting.
     """
-    bot.utils.check_configuration(conf)
+    brb.utils.check_configuration(conf)
+    if debug:
+        brb.logger.setLevel(logging.DEBUG)
 
 
 @cli.command(
@@ -16,15 +29,10 @@ def cli():
     short_help = "Take a snapshot of your wallet",
     help = "Take a snapshot of the binance wallet and save it for further plotting"
 )
-@click.option(
-    '--debug/--no-debug',
-    default=False,
-    help="Prints debug data"
-)
-def snapshot(debug):
-    crypto_report = bot.crypto.get_report(debug)
-    crypto_reports = bot.crypto.save_report(crypto_report, bot.crypto.get_previous_reports())
-    print('Snapshot saved')
+def snapshot():
+    crypto_report = brb.crypto.get_report()
+    crypto_reports = brb.crypto.save_report(crypto_report, brb.crypto.get_previous_reports())
+    brb.logger.info('Snapshot saved')
 
 
 @cli.command(
@@ -67,16 +75,16 @@ def output(quiet, relative, symbol, days):
             assert s in conf.COINS+[conf.CURRENCY]
     if len(symbol) > 1:
         relative = True
-    reports = bot.crypto.get_previous_reports()
+    reports = brb.crypto.get_previous_reports()
     if len(reports) == 0:
         msg = "No snapshot in database. Run at least once main.py snapshot"
         figname = None
     else:
         msg = "*** \n### Crypto report 📈 : \n***\n\n"
-        msg += bot.crypto.format_report(reports[-1])
-        figname = bot.crypto.plot_symbol(reports, symbol, relative, days)
+        msg += brb.crypto.format_report(reports[-1])
+        figname = brb.crypto.plot_symbol(reports, symbol, relative, days)
 
-    bot.io.output(msg, figname, quiet)
+    brb.io.output(msg, figname, quiet)
 
 
 if __name__ == "__main__":

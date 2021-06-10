@@ -7,6 +7,8 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import datetime as dt
 import binance
+import logging
+import brb
 
 
 def build_ticker(all_symbols, tickers_raw):
@@ -36,7 +38,7 @@ def build_ticker(all_symbols, tickers_raw):
     return tickers
 
 
-def get_report(debug):
+def get_report():
     api = binance.Client(conf.BINANCE_API_KEY, conf.BINANCE_API_SECRET)
 
     account = api.get_account()
@@ -66,9 +68,8 @@ def get_report(debug):
         ).json()['rates'][conf.CURRENCY]
         tickers[conf.CURRENCY] = ticker
 
-    if debug:
-        print(all_symbols, tickers, sep="\n"*2, end='\n'*2)
-
+    brb.logger.debug(all_symbols)
+    brb.logger.debug(tickers)
 
     total_usdt = 0
     for symbol in account_symbols:
