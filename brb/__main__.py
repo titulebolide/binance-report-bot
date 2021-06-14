@@ -19,7 +19,6 @@ def cli(debug):
     if debug:
         brb.logger.setLevel(logging.DEBUG)
 
-
 @cli.command(
     "snapshot",
     short_help="Take a snapshot of your wallet",

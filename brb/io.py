@@ -2,6 +2,8 @@ import requests
 import conf
 import os
 import matplotlib.pyplot as plt
+import logging
+import brb
 
 if conf.APPRISE_URL != "":
     import apprise
@@ -24,7 +26,9 @@ def output(msg, img, quiet):
             plt.imshow(plt.imread(img))
             plt.show()
 
-    if conf.APPRISE_URL != "":
-        apobj = apprise.Apprise()
-        apobj.add(conf.APPRISE_URL)
-        apobj.notify(body=msg, body_format=apprise.NotifyFormat.MARKDOWN, attach=img)
+    if brb.notifier is not None:
+        brb.notifier.notify(
+            body=msg,
+            body_format=apprise.NotifyFormat.MARKDOWN,
+            attach=img
+        )
