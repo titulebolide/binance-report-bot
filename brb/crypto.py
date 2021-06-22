@@ -92,6 +92,8 @@ def format_report(report):
     msg = "**Current market**:\n\n"
     currency_change = 1 / report["tickers"][conf.CURRENCY]
     for symbol, qty in report["balances"].items():
+        if symbol not in report["tickers"]:
+            continue
         ticker = report["tickers"][symbol]
         value = round(qty * ticker * currency_change, 2)
         if value < 0.1:
@@ -133,6 +135,8 @@ def plot_symbol(reports, symbols, relative, days):
         for report in reports:
             if report["time"] < min_timestamp:
                 continue  # skip if too recent
+            if symbol not in report["tickers"]:
+                continue
             ticker = report["tickers"][symbol]
             if ticker == 0:
                 continue
