@@ -77,6 +77,8 @@ def get_report():
 
     total_usdt = 0
     for symbol in account_symbols:
+        if symbol not in tickers:
+            continue
         total_usdt += balances[symbol] * tickers[symbol]
 
     report = {}
