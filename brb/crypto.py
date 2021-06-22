@@ -124,7 +124,10 @@ def plot_symbol(reports, symbols, relative, days):
 
     plt.clf()
     plt.close()
-    plt.figure()
+    if len(symbols) < 10:
+        plt.figure()
+    else:
+        plt.figure(figsize=(12,8))
 
     min_timestamp = 0
     if days != 0:
