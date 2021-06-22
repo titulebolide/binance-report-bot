@@ -127,7 +127,7 @@ def plot_symbol(reports, symbols, relative, days):
     if len(symbols) < 10:
         plt.figure()
     else:
-        plt.figure(figsize=(12,8))
+        plt.figure(figsize=(10,6))
 
     min_timestamp = 0
     if days != 0:
@@ -154,7 +154,7 @@ def plot_symbol(reports, symbols, relative, days):
     plt.setp(plt.xticks()[1], rotation=15)
     if relative:
         plt.ylabel("Relative profit (%)")
-        plt.legend()
+        plt.legend(bbox_to_anchor=(1,1), loc="upper left")
     else:
         label = "Amount"
         label += f" ({symbols[0]})" if len(symbols) == 1 else ""
