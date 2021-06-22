@@ -23,7 +23,7 @@ if conf.APPRISE_URL != "":
             if record.levelno >= 40: #critical or error
                 date = str(dt.datetime.fromtimestamp(int(record.created)))
                 notifier.notify(
-                    body = f"{date} - {record.name} - {record.levelname} - {record.msg}",
+                    body = f"```{date} - {record.name} - {record.levelname} - {record.msg}```",
                 )
 
     logger.addHandler(ErrorAppriseNotifier())

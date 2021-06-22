@@ -5,7 +5,8 @@ import logging
 import conf
 import click
 import brb
-
+import sys
+import traceback
 
 @click.group()
 @click.option("--debug/--no-debug", default=False, help="Prints debug data")
@@ -88,4 +89,10 @@ def output(quiet, relative, symbol, days):
 
 
 if __name__ == "__main__":
-    cli()
+    try:
+        cli()
+    except Exception as e:
+        brb.logger.error("".join(traceback.format_exception(
+            *sys.exc_info()
+        )))
+        raise
