@@ -2,9 +2,9 @@ import brb.crypto
 import brb.utils
 import brb.io
 import logging
-import conf
 import click
 import brb
+import brb.conf as conf
 import sys
 import traceback
 

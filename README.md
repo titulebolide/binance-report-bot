@@ -7,7 +7,7 @@ The intent of this bot is to take a snapshot of your binance wallet, e.g. the cu
 
 ## Install
 
-Create the file `conf.py` based on `conf.template.py`.
+Create the file `conf_user.py` based on `conf_default.py`. If a field is missing in `conf_user.py`, it will defaults to the one in `conf_default.py`. 
 
 Then run
 ```

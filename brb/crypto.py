@@ -1,6 +1,5 @@
 import requests
 import numpy as np
-import conf
 import os
 import time
 import matplotlib.pyplot as plt
@@ -9,6 +8,7 @@ import datetime as dt
 import binance
 import logging
 import brb
+import brb.conf as conf
 
 
 def build_ticker(all_symbols, tickers_raw):

@@ -1,7 +1,7 @@
 import logging
 import datetime as dt
 import apprise
-import conf
+import brb.conf as conf
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.WARNING

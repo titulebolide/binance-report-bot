@@ -1,5 +1,5 @@
 import requests
-import conf
+import brb.conf as conf
 import os
 import matplotlib.pyplot as plt
 import logging
