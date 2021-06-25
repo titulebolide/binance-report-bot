@@ -19,11 +19,12 @@ if conf.APPRISE_URL != "":
             Logging Handler that sends an apprise notification when an error is raised
             """
             super().__init__()
+
         def emit(self, record):
-            if record.levelno >= 40: #critical or error
+            if record.levelno >= 40:  # critical or error
                 date = str(dt.datetime.fromtimestamp(int(record.created)))
                 notifier.notify(
-                    body = f"```{date} - {record.name} - {record.levelname} - {record.msg}```",
+                    body=f"```{date} - {record.name} - {record.levelname} - {record.msg}```",
                 )
 
     logger.addHandler(ErrorAppriseNotifier())

@@ -28,7 +28,5 @@ def output(msg, img, quiet):
 
     if brb.notifier is not None:
         brb.notifier.notify(
-            body=msg,
-            body_format=apprise.NotifyFormat.MARKDOWN,
-            attach=img
+            body=msg, body_format=apprise.NotifyFormat.MARKDOWN, attach=img
         )

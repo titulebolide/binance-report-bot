@@ -12,6 +12,15 @@ CURRENCY = "EUR" #Or USD
 # The symbol of your currency
 CURRENCY_SYMBOL = "€"
 
+# Set here the different diffs you want to see in the text report
+# E.g. if you want tp see the yearly, monthly, weekly or daily diffs
+DIFFS_POSITIONS = [
+    {"ts_delta" : 60*60*24, "text" : "day"},
+    {"ts_delta" : 60*60*24*7, "text" : "week"},
+    {"ts_delta" : 60*60*24*30, "text" : "month"},
+    #{"ts_delta" : 60*60*24*365, "text" : "year"},
+]
+
 #Set this to false if your terminal does not support rich printing
 RICH_PRINTING = True
 

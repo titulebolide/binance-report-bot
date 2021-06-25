@@ -8,6 +8,7 @@ import brb
 import sys
 import traceback
 
+
 @click.group()
 @click.option("--debug/--no-debug", default=False, help="Prints debug data")
 def cli(debug):
@@ -19,6 +20,7 @@ def cli(debug):
     brb.utils.check_configuration(conf)
     if debug:
         brb.logger.setLevel(logging.DEBUG)
+
 
 @cli.command(
     "snapshot",
@@ -81,8 +83,7 @@ def output(quiet, relative, symbol, days):
         msg = "No snapshot in database. Run at least once main.py snapshot"
         figname = None
     else:
-        msg = "*** \n### Crypto report 📈 : \n***\n\n"
-        msg += brb.crypto.format_report(reports[-1])
+        msg = brb.crypto.format_report(reports)
         figname = brb.crypto.plot_symbol(reports, symbol, relative, days)
 
     brb.io.output(msg, figname, quiet)
@@ -92,7 +93,5 @@ if __name__ == "__main__":
     try:
         cli()
     except Exception as e:
-        brb.logger.error("".join(traceback.format_exception(
-            *sys.exc_info()
-        )))
+        brb.logger.error("".join(traceback.format_exception(*sys.exc_info())))
         raise
