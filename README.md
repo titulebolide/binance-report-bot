@@ -1,13 +1,14 @@
 # Binance Report Bot
 
-:warning: **0.5.0 -> 0.6.0 INTRODUCES BREAKING CHANGES IN THE API** :warning:
-Replace `python3 main.py` calls by `python3 -m brb`
+:warning: **0.5.0 -> 0.6.1 INTRODUCES BREAKING CHANGES IN THE API** :warning:
+- Replace `python3 main.py` calls by `python3 -m brb`
+- Rename `conf.py` to `conf_default.py`. This will not cause a critical error but the handling of `conf.py` might be dropped in the future
 
 The intent of this bot is to take a snapshot of your binance wallet, e.g. the current balances and store it for further plotting.
 
 ## Install
 
-Create the file `conf_user.py` based on `conf_default.py`. If a field is missing in `conf_user.py`, it will defaults to the one in `conf_default.py`. 
+Create the file `conf_user.py` based on `conf_default.py`. If a field is missing in `conf_user.py`, it will defaults to the one in `conf_default.py`.
 
 Then run
 ```
