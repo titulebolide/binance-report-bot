@@ -1,5 +1,4 @@
 import brb.crypto
-import brb.utils
 import brb.io
 import logging
 import click
@@ -17,7 +16,6 @@ def cli(debug):
 
     Take a snapshot of your binance wallet, e.g. the current balances and store it for further plotting.
     """
-    brb.utils.check_configuration(conf)
     if debug:
         brb.logger.setLevel(logging.DEBUG)
 
