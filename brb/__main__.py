@@ -1,9 +1,11 @@
-import brb.crypto
+import brb
+import brb.report
+import brb.text
+import brb.graph
 import brb.io
+import brb.conf as conf
 import logging
 import click
-import brb
-import brb.conf as conf
 import sys
 import traceback
 
@@ -26,9 +28,9 @@ def cli(debug):
     help="Take a snapshot of the binance wallet and save it for further plotting",
 )
 def snapshot():
-    crypto_report = brb.crypto.get_report()
-    crypto_reports = brb.crypto.save_report(
-        crypto_report, brb.crypto.get_previous_reports()
+    crypto_report = brb.report.get_report()
+    crypto_reports = brb.report.save_report(
+        crypto_report, brb.report.get_previous_reports()
     )
     brb.logger.info("Snapshot saved")
 
@@ -76,13 +78,13 @@ def output(quiet, relative, symbol, days):
             assert s in conf.COINS + [conf.CURRENCY]
     if len(symbol) > 1:
         relative = True
-    reports = brb.crypto.get_previous_reports()
+    reports = brb.report.get_previous_reports()
     if len(reports) == 0:
         msg = "No snapshot in database. Run at least once main.py snapshot"
         figname = None
     else:
-        msg = brb.crypto.format_report(reports)
-        figname = brb.crypto.plot_symbol(reports, symbol, relative, days)
+        msg = brb.text.format_report(reports)
+        figname = brb.graph.plot_symbol(reports, symbol, relative, days)
 
     brb.io.output(msg, figname, quiet)
 
