@@ -34,7 +34,6 @@ def snapshot():
     )
     brb.logger.info("Snapshot saved")
 
-
 @cli.command(
     "output",
     short_help="Output the previously stored data",
@@ -44,6 +43,16 @@ def snapshot():
     "--quiet/--no-quiet",
     default=False,
     help="Set to true if you don't want to print in the console or display an image",
+)
+@click.option(
+    "--text/--no-text",
+    default=True,
+    help="Can be used to prevent the generation of the text report",
+)
+@click.option(
+    "--graph/--no-graph",
+    default=True,
+    help="Can be used to prevent the generation of the graph report",
 )
 @click.option(
     "-r",
@@ -69,7 +78,7 @@ Default : FIAT""",
 If set to 0, the graph will plot all the records.
 Default : 7 days""",
 )
-def output(quiet, relative, symbol, days):
+def output(quiet, text, graph, relative, symbol, days):
     if symbol == "*":
         symbol = conf.COINS
     else:
@@ -79,14 +88,21 @@ def output(quiet, relative, symbol, days):
     if len(symbol) > 1:
         relative = True
     reports = brb.report.get_previous_reports()
-    if len(reports) == 0:
-        msg = "No snapshot in database. Run at least once main.py snapshot"
-        figname = None
-    else:
-        msg = brb.text.format_report(reports)
-        figname = brb.graph.plot_symbol(reports, symbol, relative, days)
 
+    msg = ""
+    figname = None
+
+    if len(reports) == 0:
+        brb.logger.warn("No snapshot in database. Run at least once main.py snapshot")
+    else:
+        if graph:
+            figname, nb_plot = brb.graph.plot_symbol(reports, symbol, relative, days)
+            if nb_plot <= 4:
+                brb.logger.warn("Less than one report has been used to generate the plot. As a result, no line will be visible on the graph. Please check that snapshots are actually made.")
+        if text:
+            msg += brb.text.format_report(reports)
     brb.io.output(msg, figname, quiet)
+
 
 
 if __name__ == "__main__":

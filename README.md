@@ -88,14 +88,18 @@ Options:
 ```
 
 ```bash
-$ python3 -m brb output --help
-Usage: main.py output [OPTIONS]
+$ Usage: python -m brb output [OPTIONS]
 
   Output the previously stored data with 'snapshot'
 
 Options:
+
   --quiet / --no-quiet            Set to true if you don't want to print in
                                   the console or display an image
+  --text / --no-text              Can be used to prevent the generation of the
+                                  text report
+  --graph / --no-graph            Can be used to prevent the generation of the
+                                  graph report
   -r, --relative / --no-relative  If the graph should be plotted relative to
                                   its initial value
   -s, --symbol TEXT               The currency the graph will be plotted on.

@@ -21,7 +21,7 @@ if conf.APPRISE_URL != "":
             super().__init__()
 
         def emit(self, record):
-            if record.levelno >= 40:  # critical or error
+            if record.levelno >= 30:  # warning, critical or error
                 date = str(dt.datetime.fromtimestamp(int(record.created)))
                 notifier.notify(
                     body=f"```{date} - {record.name} - {record.levelname} - {record.msg}```",

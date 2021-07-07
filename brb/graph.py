@@ -6,7 +6,26 @@ import time
 
 
 def plot_symbol(reports, symbols, relative, days):
+    def Y_getter(report, symbol):
+        if symbol not in report["tickers"]:
+            return
+        ticker = report["tickers"][symbol]
+        if ticker == 0:
+            return
+        return report["total_usdt"] / ticker
+    return plot_report_data_time(Y_getter, reports, symbols, relative, days)
 
+def plot_tickers(reports, symbols, relative, days):
+    def Y_getter(report, symbol):
+        if symbol not in report["tickers"]:
+            return
+        ticker = report["tickers"][symbol]
+        if ticker == 0:
+            return
+        return ticker
+    return plot_report_data_time(Y_getter, reports, symbols, relative, days)
+
+def plot_report_data_time(Y_getter, reports, symbols, relative, days):
     plt.clf()
     plt.close()
     if len(symbols) < 10:
@@ -18,18 +37,19 @@ def plot_symbol(reports, symbols, relative, days):
     if days != 0:
         min_timestamp = time.time() - days * 24 * 60 * 60
 
+    nb_plot = 0
     for symbol in symbols:
         X, Y = [], []
         for report in reports:
             if report["time"] < min_timestamp:
                 continue  # skip if too recent
-            if symbol not in report["tickers"]:
+
+            y = Y_getter(report, symbol)
+            if y is None:
                 continue
-            ticker = report["tickers"][symbol]
-            if ticker == 0:
-                continue
-            Y.append(report["total_usdt"] / ticker)
+            Y.append(y)
             X.append(dt.datetime.fromtimestamp(report["time"]))
+            nb_plot += 1
         if relative:
             Y = np.array(Y)
             Y = (Y / Y[0] - 1) * 100
@@ -47,4 +67,4 @@ def plot_symbol(reports, symbols, relative, days):
     plt.grid()
     figname = f"db/quantity_{symbol}.png"
     plt.savefig(figname)
-    return figname
+    return figname, nb_plot

@@ -13,10 +13,11 @@ if conf.RICH_PRINTING:
 
 def output(msg, img, quiet):
     if not quiet:
-        if conf.RICH_PRINTING:
-            rich.console.Console().print(rich.markdown.Markdown(msg))
-        else:
-            print(msg)
+        if len(msg) > 0:
+            if conf.RICH_PRINTING:
+                rich.console.Console().print(rich.markdown.Markdown(msg))
+            else:
+                print(msg)
         if img is not None:
             plt.close()
             fig = plt.figure()
