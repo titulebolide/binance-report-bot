@@ -52,6 +52,11 @@ Plot the equivalent holdings of all soins registered in the conf file:
 python3 -m brb output --symbol * # or '*' if using zsh
 ```
 
+Plot the price of EOS and BTC over the last 10 days expressed in WIN:
+```bash
+python3 -m brb output --symbol EOS,BTC --graph-type price --price-in WIN
+```
+
 **Note** : The *equivalent holding* is your portfolio's value in a certain currency. It represents what you would be holding if all your portfolio was under this single currency.
 
 ## CLI specification
@@ -84,12 +89,12 @@ Options:
 ```
 
 ```bash
-$ Usage: python -m brb output [OPTIONS]
+$ python3 -m brb output --help
+Usage: python -m brb output [OPTIONS
 
   Output the previously stored data with 'snapshot'
 
 Options:
-
   --quiet / --no-quiet            Set to true if you don't want to print in
                                   the console or display an image
   --text / --no-text              Can be used to prevent the generation of the
@@ -97,6 +102,7 @@ Options:
   --graph / --no-graph            Can be used to prevent the generation of the
                                   graph report
   -r, --relative / --no-relative  If the graph should be plotted relative to
+
                                   its initial value
   -s, --symbol TEXT               The currency the graph will be plotted on.
                                   To plot several symbols on the same graph,
@@ -106,5 +112,11 @@ Options:
   -d, --days INTEGER              The number of days over which the graph will
                                   be plotted. If set to 0, the graph will plot
                                   all the records. Default : 7 days
+  -t, --graph-type [amount|price]
+                                  Graph type. Amount : shows the equivalent
+                                  amount that you are holding on your wallet.
+                                  Price : shows price over time
+  -p, --price-in TEXT             Currency in which to express the prices.
+                                  Default : USD
   --help                          Show this message and exit.
 ```
