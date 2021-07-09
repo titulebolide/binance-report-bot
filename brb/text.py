@@ -1,7 +1,8 @@
 import numpy as np
 import brb.conf as conf
 
-def format_report(reports):
+
+def text_report(reports):
     msg = "**Current market**:"
 
     currency_change = 1 / reports[-1]["tickers"][conf.CURRENCY]

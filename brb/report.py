@@ -6,6 +6,7 @@ import numpy as np
 import brb
 import brb.conf as conf
 
+
 def build_ticker(all_symbols, tickers_raw):
     backup_coins = ["BTC", "ETH", "BNB"]
     tickers = {"USDT": 1, "USD": 1}
@@ -82,12 +83,14 @@ def get_report():
     report["tickers"] = tickers
     return report
 
+
 def get_previous_reports():
     if os.path.exists("db/crypto.npy"):
         reports = np.load("db/crypto.npy", allow_pickle=True).tolist()
         return reports
     else:
         return []
+
 
 def save_report(report, old_reports):
     report["time"] = int(time.time())
