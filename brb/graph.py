@@ -5,27 +5,7 @@ import numpy as np
 import time
 
 
-def plot_symbol(reports, symbols, relative, days):
-    def Y_getter(report, symbol):
-        if symbol not in report["tickers"]:
-            return
-        ticker = report["tickers"][symbol]
-        if ticker == 0:
-            return
-        return report["total_usdt"] / ticker
-    return plot_report_data_time(Y_getter, reports, symbols, relative, days)
-
-def plot_tickers(reports, symbols, relative, days):
-    def Y_getter(report, symbol):
-        if symbol not in report["tickers"]:
-            return
-        ticker = report["tickers"][symbol]
-        if ticker == 0:
-            return
-        return ticker
-    return plot_report_data_time(Y_getter, reports, symbols, relative, days)
-
-def plot_report_data_time(Y_getter, reports, symbols, relative, days):
+def graph_report(reports, symbols, relative, days, graph_type, ref_currency):
     plt.clf()
     plt.close()
     if len(symbols) < 10:
@@ -43,13 +23,31 @@ def plot_report_data_time(Y_getter, reports, symbols, relative, days):
         for report in reports:
             if report["time"] < min_timestamp:
                 continue  # skip if too recent
+            if symbol not in report["tickers"]:
+                continue
+            ticker = report["tickers"][symbol]
+            if ticker == 0:
+                continue
 
-            y = Y_getter(report, symbol)
+            y = None
+            if graph_type == "amount":
+                y = report["total_usdt"] / ticker
+            elif graph_type == "price":
+                ref_currency_ticker = 1
+                if ref_currency not in ("USD", "USDT"):
+                    if ref_currency not in report["tickers"]:
+                        continue
+                    ref_currency_ticker = report["tickers"][ref_currency]
+                    if ref_currency_ticker == 0:
+                        continue
+                y = ticker / ref_currency_ticker
             if y is None:
                 continue
+
             Y.append(y)
             X.append(dt.datetime.fromtimestamp(report["time"]))
             nb_plot += 1
+
         if relative:
             Y = np.array(Y)
             Y = (Y / Y[0] - 1) * 100
