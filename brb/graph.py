@@ -55,13 +55,19 @@ def graph_report(reports, symbols, relative, days, graph_type, ref_currency):
 
     plt.gca().xaxis.set_major_formatter(mdates.DateFormatter("%d/%m %H:%M"))
     plt.setp(plt.xticks()[1], rotation=15)
-    if relative:
-        plt.ylabel("Relative profit (%)")
-        plt.legend(bbox_to_anchor=(1, 1), loc="upper left")
-    else:
-        label = "Amount"
-        label += f" ({symbols[0]})" if len(symbols) == 1 else ""
-        plt.ylabel(label)
+    if graph_type == "amount":
+        if relative:
+            plt.ylabel("Relative evolution of amount (%)")
+            plt.legend(bbox_to_anchor=(1, 1), loc="upper left")
+        else:
+            label = "Amount"
+            label += f" ({symbols[0]})" if len(symbols) == 1 else ""
+            plt.ylabel(label)
+    elif graph_type == "price":
+        if relative:
+            plt.ylabel(f"Relative evolution of price in {ref_currency} (%)")
+        else:
+            plt.ylabel(f"Price in {ref_currency}")
     plt.grid()
     figname = f"db/quantity_{symbol}.png"
     plt.savefig(figname)
