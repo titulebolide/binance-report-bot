@@ -9,9 +9,10 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 notifier = None
-if conf.APPRISE_URL != "":
+if len(conf.APPRISE_URLS) > 0:
     notifier = apprise.Apprise()
-    notifier.add(conf.APPRISE_URL)
+    for url in conf.APPRISE_URLS:
+        notifier.add(url)
 
     class ErrorAppriseNotifier(logging.Handler):
         def __init__(self):

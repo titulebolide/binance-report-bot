@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import logging
 import brb
 
-if conf.APPRISE_URL != "":
+if len(conf.APPRISE_URLS) > 0:
     import apprise
 if conf.RICH_PRINTING:
     import rich.console, rich.markdown

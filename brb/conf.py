@@ -11,5 +11,9 @@ except ModuleNotFoundError:
 #Conf check
 assert BINANCE_API_KEY != ""
 assert BINANCE_API_SECRET != ""
+assert type(APPRISE_URLS) == list
+for url in APPRISE_URLS:
+    assert type(url) == str
+
 if CURRENCY not in ("EUR", "USD"):
     assert OER_APP_ID != ""
