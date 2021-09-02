@@ -15,7 +15,7 @@ def build_ticker(all_symbols, tickers_raw):
 
     for symbol in set(backup_coins + all_symbols):
         success = False
-        for stable in ("USDT", "BUSD", "USDC", "DAI"):
+        for stable in ("USD", "USDT", "BUSD", "USDC", "DAI"):
             pair = symbol + stable
             if pair in tickers_raw:
                 tickers[symbol] = tickers_raw[pair]
