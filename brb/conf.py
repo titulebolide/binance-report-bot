@@ -11,6 +11,7 @@ except ModuleNotFoundError:
 #Conf check
 assert BINANCE_API_KEY != ""
 assert BINANCE_API_SECRET != ""
+assert TLD in ("com", 'us')
 assert type(APPRISE_URLS) == list
 for url in APPRISE_URLS:
     assert type(url) == str

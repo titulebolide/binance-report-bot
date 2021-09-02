@@ -35,7 +35,11 @@ def build_ticker(all_symbols, tickers_raw):
 
 
 def get_report():
-    api = binance.Client(conf.BINANCE_API_KEY, conf.BINANCE_API_SECRET)
+    api = binance.Client(
+        conf.BINANCE_API_KEY,
+        conf.BINANCE_API_SECRET,
+        tld = conf.TLD
+    )
 
     account = api.get_account()
     account_symbols = []

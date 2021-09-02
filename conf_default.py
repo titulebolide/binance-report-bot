@@ -34,3 +34,6 @@ APPRISE_URLS = []
 # openexchangerates.org api key. Mandatory if CURRENCY is not EUR or USD
 # Get yours here : https://openexchangerates.org/signup/free
 OER_APP_ID = ""
+
+# Set this to "us" if you are using binance.us
+TLD = "com"
