@@ -32,7 +32,8 @@ def text_report(reports):
         # older than current_ts - pos['ts_delta']
         report = reports[older_than_pos[-1]]
         if not conf.CURRENCY in report["tickers"]:
-            brb.logger.warning(f"The report #{older_than_pos[-1]} has no price for the chosen currency in your configuration ({conf.CURRENCY})")
+            nb_report = older_than_pos[-1]
+            brb.logger.warning(f"The report #{nb_report} has no price for the chosen currency in your configuration ({conf.CURRENCY})")
             continue
         pos_report_total = report["total_usdt"] / report["tickers"][conf.CURRENCY]
         diff = total - pos_report_total
