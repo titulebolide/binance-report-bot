@@ -30,6 +30,10 @@ def build_ticker(all_symbols, tickers_raw):
             pair = symbol + b_coin
             if pair in tickers_raw:
                 tickers[symbol] = tickers_raw[pair] * tickers[b_coin]
+                success = True
+                break
+        if not success:
+            brb.logger.debug(f'Could not retreive USD price for {symbol}, skipping')
 
     return tickers
 
@@ -72,12 +76,12 @@ def get_report():
         )
         tickers[conf.CURRENCY] = ticker
 
-    brb.logger.debug(all_symbols)
-    brb.logger.debug(tickers)
+    brb.logger.debug(f"Prices after filtering : {tickers}")
 
     total_usdt = 0
     for symbol in account_symbols:
         if symbol not in tickers:
+            brb.logger.debug(f"{symbol} has no price, skipping")
             continue
         total_usdt += balances[symbol] * tickers[symbol]
 

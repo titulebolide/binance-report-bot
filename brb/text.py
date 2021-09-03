@@ -1,4 +1,5 @@
 import numpy as np
+import brb
 import brb.conf as conf
 
 
@@ -8,6 +9,7 @@ def text_report(reports):
     currency_change = 1 / reports[-1]["tickers"][conf.CURRENCY]
     for symbol, qty in reports[-1]["balances"].items():
         if symbol not in reports[-1]["tickers"]:
+            brb.logger.debug(f"{symbol} has not price in the very last saved report")
             continue
         ticker = reports[-1]["tickers"][symbol]
         value_usd = qty * ticker
@@ -30,6 +32,7 @@ def text_report(reports):
         # older than current_ts - pos['ts_delta']
         report = reports[older_than_pos[-1]]
         if not conf.CURRENCY in report["tickers"]:
+            brb.logger.warning(f"The report #{older_than_pos[-1]} has no price for the chosen currency in your configuration ({conf.CURRENCY})")
             continue
         pos_report_total = report["total_usdt"] / report["tickers"][conf.CURRENCY]
         diff = total - pos_report_total

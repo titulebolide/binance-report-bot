@@ -24,9 +24,11 @@ def graph_report(reports, symbols, relative, days, graph_type, ref_currency):
             if report["time"] < min_timestamp:
                 continue  # skip if too recent
             if symbol not in report["tickers"]:
+                brb.logger.debug(f"{symbol} has no price in the report with timestamp {report["time"]}")
                 continue
             ticker = report["tickers"][symbol]
             if ticker == 0:
+                brb.logger.debug(f"{symbol} has an invalid price in the report with timestamp {report["time"]}")
                 continue
 
             y = None
