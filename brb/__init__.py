@@ -2,9 +2,12 @@ import logging
 import datetime as dt
 import apprise
 import brb.conf as conf
+import os
+
+log_level = logging.DEBUG if os.environ.get("BRB_DEBUG") is not None else logging.WARNING
 
 logging.basicConfig(
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.WARNING
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=log_level
 )
 logger = logging.getLogger(__name__)
 
